@@ -93,8 +93,8 @@ def get_cat1():
 # 
 ##################################################################
 @app.route('/livres/<int:idlivre>')
-def recherche_id(id):
-    liv2 = Livre.query.get(id)  
+def recherche_id(idlivre):
+    liv2 = Livre.query.get(idlivre)  
     if liv2 is None:
         abort(404)
     else:
@@ -105,9 +105,9 @@ def recherche_id(id):
 # 
 ###################################################################
 @app.route('/categories/<int:id>/livres')
-def categ():
-    cat3 = Livre.query.all()
-    cat3.Categorie = [z.format() for z in Categorie]
+def categ(id):
+    cat3 = Categorie.query.all()
+    cat3.Livre = [z.format() for z in Categorie]
     return jsonify(cat3.Categorie)
 ###################################################################
 # 
@@ -115,9 +115,9 @@ def categ():
 # 
 ###################################################################
 @app.route('/categories/<int:id>/livres')
-def categ2():
-    cat3 = Livre.query.all()
-    cat3.Categorie = [z.format() for z in Categorie]
+def categ2(id):
+    cat3 = Categorie.query.all()
+    cat3.Livre = [z.format() for z in Categorie]
     return jsonify(cat3.Categorie)
     
 ###################################################################
@@ -125,21 +125,21 @@ def categ2():
 #                 RECHERCHER UNE CATEGORIE PAR ID
 # 
 ##################################################################    
-@app.route('/categories')
+@app.route('/categories/<int:id>')
 def idcats(id):
-    liv2 = Livre.query.get(id)  
-    if liv2 is None:
+    cat9 = Categorie.query.get(id)  
+    if cat9 is None:
         abort(404)
     else:
-        return liv2.format()
+        return cat9.format()
 ##################################################################
 # 
 #                  SUPPRIMER UN LIVRE
 # 
 ##################################################################
-@app.route('/livres')
-def suplivre():    
-    cont=Livre.query.get(id) 
+@app.route('/livres/<int:idlivre>')
+def suplivre(idlivre):    
+    cont=Livre.query.get(idlivre) 
     db.session.delete(cont)
     db.session.commit()
 ##################################################################
@@ -147,8 +147,8 @@ def suplivre():
 #                  SUPPRIMER UN CATEGORIE
 # 
 ##################################################################
-@app.route('/categorie')
-def supcat():
+@app.route('/categorie/<int:id>')
+def supcat(id):
     v=Categorie.query.get(id)
     db.session.delete(v)
     db.session.commit()
@@ -158,7 +158,7 @@ def supcat():
 # 
 ##################################################################
 @app.route('/livres<int:idlivre>', methods=['PATCH'])
-def modcat(idlivre):
+def modinf(idlivre):
     body = request.get_json()
     infliv = Livre.query.get(idlivre)  
     if 'isbn' in body and 'titre' in body and 'date' in body and 'auteur' in body and 'editeur' in body:
