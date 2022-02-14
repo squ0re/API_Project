@@ -119,7 +119,7 @@ def categ2():
     cat3 = Livre.query.all()
     cat3.Categorie = [z.format() for z in Categorie]
     return jsonify(cat3.Categorie)
-'''    
+    
 ###################################################################
 # 
 #                 RECHERCHER UNE CATEGORIE PAR ID
@@ -188,4 +188,4 @@ def modcat(id):
         'success modify': True,
         'categorie': libcat.format(),
     })
-  '''
+  
